@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from 'react'
+import Search from './components/Search'
+import List from './components/List'
+import {RootObject} from './components/types'
+import { isFL } from './components/types'
+interface IProps {
+ 
 }
+interface IState {
+  users: RootObject[],
+  isFirst: boolean,
+  isLoading: boolean,
+}
+export default class App extends Component<IProps, IState> {
 
-export default App;
+  public state = {
+    users: [],
+    isFirst: true,
+    isLoading: false,
+  }
+  updataAppSate = (isLoading: boolean,users: RootObject[]): void => {
+      this.setState({ users ,isLoading})
+  }
+  changeisFirstAndLoading = (obj: isFL)=>{
+    this.setState({
+      isFirst: obj.isFirst,
+      isLoading: obj.isLoading
+    })
+  }
+
+  
+  render() {
+
+    return (
+      <div className="container">
+        <Search updataAppSate={this.updataAppSate}  changeisFirstAndLoading={this.changeisFirstAndLoading} />
+        <List {...this.state}/>
+    </div>
+    )
+  }
+}
